@@ -4,6 +4,9 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+// Needed for MaterialUI
+import 'fontsource-roboto';
+
 ReactDOM.render(
   <React.StrictMode>
     <App />

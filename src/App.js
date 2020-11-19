@@ -1,9 +1,15 @@
 import { useState } from 'react'
 import './App.css'
-import { Search } from 'components/Search'
-import { NotificationRegistration } from 'components/NotificationRegistration'
+
 import Course from 'models/Course'
-import { SignIn } from 'components/SignIn'
+
+import {
+  NotificationRegistration,
+  Search,
+  SignIn
+} from 'components'
+
+import Button from '@material-ui/core/Button';
 
 const courses = [
   new Course({
@@ -62,9 +68,10 @@ function App() {
             <NotificationRegistration courses={courses.filter(course => course[searchParam.field] === searchParam.searchKey)} backToSearching={() => setSearching(true)} saveEmail={saveEmailToArray} />
           </div>
       }
-      {
-        showSignIn ? <SignIn hideSignIn={() => setShowSignIn(false)}/> : <button onClick={() => setShowSignIn(true)}>Sign In</button>
-      }
+
+      <Button color="primary" onClick={() => setShowSignIn(true)}> Sign In </Button>
+      <SignIn open={showSignIn} onClose={() => setShowSignIn(false)}/>
+      
     </div>
   );
 }
