@@ -27,6 +27,6 @@ export default class Course {
       this.term = term
     }
   
-    static GET_NAME_KEY = () => "name"
-    static GET_COURSE_CODE_KEY = () => "code"
+    static SEARCH_BY_NAME = () => "name"
+    static SEARCH_BY_COURSE_CODE = () => "code"
   }  

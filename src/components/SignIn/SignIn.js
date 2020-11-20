@@ -1,3 +1,7 @@
+import { useState } from 'react'
+
+import { VerifyEmail } from 'components/SignIn/VerifyEmail'
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFacebook, faGoogle, faMicrosoft } from '@fortawesome/free-brands-svg-icons'
 import { faQuestion } from '@fortawesome/free-solid-svg-icons'
@@ -10,25 +14,50 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
 
+const SIGN_IN_STATES = Object.freeze({
+    SELECT_METHOD: 0,
+    COMPLETE: 1,
+    VERIFY_EMAIL: 2
+})
+
 const signInOptions = [
-    {icon: faGoogle, provider: 'Google'},
-    {icon: faFacebook, provider: 'Facebook'},
-    {icon: faMicrosoft, provider: 'Microsoft'},
-    {icon: faQuestion, provider: 'Guest'},
+    { 
+        icon: faGoogle, 
+        provider: 'Google', 
+        nextStep: SIGN_IN_STATES.VERIFY_EMAIL
+    },
+    { 
+        icon: faFacebook, 
+        provider: 'Facebook', 
+        nextStep: SIGN_IN_STATES.VERIFY_EMAIL
+    },
+    { 
+        icon: faMicrosoft, 
+        provider: 'Microsoft', 
+        nextStep: SIGN_IN_STATES.VERIFY_EMAIL
+    },
+    { 
+        icon: faQuestion, 
+        provider: 'Guest', 
+        nextStep: SIGN_IN_STATES.VERIFY_EMAIL
+    },
 ]
 
-function handleListItemClick() {
+export const SignIn = ({ onClose, open }) => {
+    const [signInStep, setSignInStep] = useState(SIGN_IN_STATES.SELECT_METHOD)
 
-}
-
-export const SignIn = ({ onClose, open, selectedValue}) => {
+    const signInComplete = () => {
+        setSignInStep(SIGN_IN_STATES.COMPLETE)
+        onClose()
+    }
+    
     return (
         <div>
             <Dialog onClose={onClose} aria-labelledby="simple-dialog-title" open={open}>
                 <DialogTitle id="simple-dialog-title">Sign In with</DialogTitle>
                 <List>
-                    {signInOptions.map(({icon, provider}) => (
-                    <ListItem button onClick={() => handleListItemClick(provider)} key={provider}>
+                    {signInOptions.map(({ icon, provider, nextStep }) => (
+                    <ListItem button onClick={() => setSignInStep(nextStep)} key={provider}>
                         <ListItemAvatar>
                         <Avatar>
                             <FontAwesomeIcon icon={icon} />
@@ -38,7 +67,13 @@ export const SignIn = ({ onClose, open, selectedValue}) => {
                     </ListItem>
                     ))}
                 </List>
-                </Dialog>
+            </Dialog>
+
+            <VerifyEmail open={open && openVerifyEmailDialog(signInStep)} handleClose={() => setSignInStep(SIGN_IN_STATES.SELECT_METHOD)} handleComplete={signInComplete} />
         </div>
     )
+}
+
+const openVerifyEmailDialog = (signInStep) => {
+    return signInStep === SIGN_IN_STATES.VERIFY_EMAIL
 }

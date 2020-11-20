@@ -45,7 +45,14 @@ let notificationArr = []
 function App() {
   const [searchParam, setSearchParam] = useState({field: null, searchKey: ""})
   const [isSearching, setSearching] = useState(true)
-  const [showSignIn, setShowSignIn] = useState(false)
+  const [shouldShowSignInDialog, setShowSignInDialog] = useState(false)
+
+  const showSignInDialog = () => {
+    setShowSignInDialog(true)
+  }
+  const hideSignInDialog = () => {
+    setShowSignInDialog(false)
+  }
 
   return (
     <div className="App">
@@ -55,11 +62,11 @@ function App() {
       { isSearching ?
           <div>
             <span>
-              Search by course code: <Search key='byCode' courses={courses.map(c => c.code)} updateSelection={(val) => setSearchParam({field: Course.GET_COURSE_CODE_KEY(), searchKey: val})} />
+              Search by course code: <Search key='byCode' courses={courses.map(c => c.code)} updateSelection={(val) => setSearchParam({field: Course.SEARCH_BY_COURSE_CODE(), searchKey: val})} />
             </span>
 
             <span>
-              Search by course name: <Search id='byName' courses={courses.map(c => c.name)} updateSelection={(val) => setSearchParam({field: Course.GET_NAME_KEY(), searchKey: val})} />
+              Search by course name: <Search id='byName' courses={courses.map(c => c.name)} updateSelection={(val) => setSearchParam({field: Course.SEARCH_BY_NAME(), searchKey: val})} />
             </span>
 
             <button onClick={() => setSearching(false)}>Search</button>
@@ -69,11 +76,11 @@ function App() {
           </div>
       }
 
-      <Button color="primary" onClick={() => setShowSignIn(true)}> Sign In </Button>
-      <SignIn open={showSignIn} onClose={() => setShowSignIn(false)}/>
+      <Button variant="outlined" color="primary" onClick={showSignInDialog}> Sign In </Button>
+      <SignIn open={shouldShowSignInDialog} onClose={hideSignInDialog} />
       
     </div>
-  );
+  )
 }
 
 const saveEmailToArray = ({ email, courseData, notifications }) => {
