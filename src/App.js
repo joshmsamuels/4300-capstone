@@ -77,7 +77,7 @@ function App() {
       }
 
       <Button variant="outlined" color="primary" onClick={showSignInDialog}> Sign In </Button>
-      <SignIn open={shouldShowSignInDialog} onClose={hideSignInDialog} />
+      <SignIn open={shouldShowSignInDialog} handleClose={hideSignInDialog} />
       
     </div>
   )

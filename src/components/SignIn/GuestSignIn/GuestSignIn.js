@@ -7,15 +7,14 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 
-export const VerifyEmail = ({ handleClose, handleComplete, open }) => {
+export const GuestSignIn = ({ handleClose, handleComplete, open }) => {
     return (
         <div>
             <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-                <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+                <DialogTitle id="form-dialog-title">Verify Email</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        To subscribe to this website, please enter your email address here. We will send updates
-                        occasionally.
+                        To verify your email please check your in.
                     </DialogContentText>
                     <TextField
                         autoFocus
