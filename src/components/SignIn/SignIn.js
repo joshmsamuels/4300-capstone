@@ -18,9 +18,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 
 const SIGN_IN_STATES = Object.freeze({
     SELECT_METHOD: 0,
-    COMPLETE: 1,
-    VERIFY_EMAIL: 2,
-    SSO_UNSUPPORTED: 3,
+    VERIFY_EMAIL: 1,
+    SSO_UNSUPPORTED: 2,
 })
 
 const signInOptions = [
