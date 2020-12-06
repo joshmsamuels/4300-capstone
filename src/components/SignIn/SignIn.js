@@ -5,6 +5,7 @@ import { GuestSignIn } from 'components/SignIn/GuestSignIn'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFacebook, faGoogle, faMicrosoft } from '@fortawesome/free-brands-svg-icons'
 import { faQuestion } from '@fortawesome/free-solid-svg-icons'
+import { faTimesCircle } from '@fortawesome/free-regular-svg-icons'
 
 import Alert from '@material-ui/lab/Alert';
 import Avatar from '@material-ui/core/Avatar';
@@ -45,7 +46,7 @@ const signInOptions = [
     },
 ]
 
-export const SignIn = ({ handleClose, open }) => {
+export const SignIn = ({ handleClose, open, setEmail }) => {
     const [signInStep, setSignInStep] = useState(SIGN_IN_STATES.SELECT_METHOD)
 
     const close = () => {
@@ -53,20 +54,19 @@ export const SignIn = ({ handleClose, open }) => {
         handleClose()
     }
 
-    const signInComplete = () => {
-        setSignInStep(SIGN_IN_STATES.COMPLETE)
+    const signInComplete = (email) => {
+        setEmail(email)
         close()
     }
     
     return (
         <div>
             <Dialog onClose={close} aria-labelledby="simple-dialog-title" open={open}>
-                {
-                    showSsoUnsupportedAlert(signInStep) ? 
-                        <Alert variant="filled" severity="warning" onClose={() => {setSignInStep(SIGN_IN_STATES.SELECT_METHOD)}}>
-                            SSO providers are currently unavailable. Please sign-in as Guest
-                        </Alert>
-                    : null
+                <FontAwesomeIcon icon={faTimesCircle} size="2x" className="closeGuestSignIn" onClick={handleClose} />
+                { showSsoUnsupportedAlert(signInStep) &&
+                    <Alert variant="filled" severity="warning" onClose={() => {setSignInStep(SIGN_IN_STATES.SELECT_METHOD)}}>
+                        SSO providers are currently unavailable. Please sign-in as Guest
+                    </Alert>
                 }
                 <DialogTitle id="simple-dialog-title">Sign In with</DialogTitle>
                 <List>
@@ -83,7 +83,7 @@ export const SignIn = ({ handleClose, open }) => {
                 </List>
             </Dialog>
 
-            <GuestSignIn open={open && openGuestSignIn(signInStep)} handleClose={() => setSignInStep(SIGN_IN_STATES.SELECT_METHOD)} handleComplete={signInComplete} />
+            { openGuestSignIn(signInStep) && <GuestSignIn open={open} handleClose={() => setSignInStep(SIGN_IN_STATES.SELECT_METHOD)} handleComplete={signInComplete} /> }
         </div>
     )
 }

@@ -46,6 +46,7 @@ function App() {
   const [searchParam, setSearchParam] = useState({field: null, searchKey: ""})
   const [isSearching, setSearching] = useState(true)
   const [shouldShowSignInDialog, setShowSignInDialog] = useState(false)
+  const [userEmail, setUserEmail] = useState("")
 
   const showSignInDialog = () => {
     setShowSignInDialog(true)
@@ -54,10 +55,17 @@ function App() {
     setShowSignInDialog(false)
   }
 
+  const isUserSignedIn = () => {
+    return userEmail !== ""
+  }
+  const signOut = () => {
+    setUserEmail("")
+  }
+
   return (
     <div className="App">
       <header className="App-header">
-        Welcome to Guelph Course Notifier
+        Welcome to Guelph Course Notifier {userEmail}
       </header>
       { isSearching ?
           <div>
@@ -76,9 +84,12 @@ function App() {
           </div>
       }
 
-      <Button variant="outlined" color="primary" onClick={showSignInDialog}> Sign In </Button>
-      <SignIn open={shouldShowSignInDialog} handleClose={hideSignInDialog} />
-      
+      {
+        isUserSignedIn() ? <Button variant="outlined" color="primary" onClick={signOut}> Sign Out </Button>
+                         : <Button variant="outlined" color="primary" onClick={showSignInDialog}> Sign In </Button>
+      }
+
+      <SignIn open={shouldShowSignInDialog} handleClose={hideSignInDialog} setEmail={setUserEmail}/>
     </div>
   )
 }
