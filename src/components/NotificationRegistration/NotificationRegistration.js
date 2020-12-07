@@ -1,43 +1,149 @@
 import { useState } from 'react'
 import Notification from 'models/Notification'
 
-export const NotificationRegistration = ({courses, backToSearching, saveEmail}) => {
+import Button from '@material-ui/core/Button';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
+
+import SplitPane from 'react-split-pane';
+
+import isEmail from 'validator/lib/isEmail';
+
+export const NotificationRegistration = ({course, backToSearching, saveEmail}) => {
     const [email, setEmail] = useState("")
+    const [emailError, setEmailError] = useState(false)
+    const [emailHelperText, setEmailHelperText] = useState("")
 
-    const [courseAvailable, setCourseAvailable] = useState(false)
-    const [courseUnavailable, setCourseUnavailable] = useState(false)
-    const [examInfoUpdated, setExamInfoUpdated] = useState(false)
+    const [notifications, setNotifications] = useState({
+        checkedCourseAvailable: false, 
+        checkedCourseunavailable: false, 
+        checkedExamInfoUpdated: false
+    })
+
+    const handleNotificationsChange = (event) => {
+        setNotifications({ ...notifications, [event.target.name]: event.target.checked });
+    }
+
+    const saveNotifications = () => {
+        if (!isEmail(email)) {
+            setEmailError(true)
+            setEmailHelperText("Invalid Email Address")
+            return
+        }
+
+        setEmailError(false)
+        setEmailHelperText(`Notifications saved for ${email}`)
+        saveEmail({
+            email: email, 
+            courseData: course, 
+            notifications: new Notification({
+                courseAvailable: notifications.checkedCourseAvailable,
+                courseUnavailable: notifications.checkedCourseunavailable,
+                examInfoUpdated: notifications.checkedExamInfoUpdated
+            })
+        })
+    }
+    
     return (
-        <div>
-            <p> NotificationRegistration </p>
-            <p>course blob: {JSON.stringify(courses)}</p>
-
+        <SplitPane split="vertical" defaultSize="50%">
             <div>
-                <label htmlFor="courseAvailable">Course Available</label>
-                <input id="courseAvailable" type="checkbox" checked={courseAvailable} onChange={e => setCourseAvailable(e.target.checked)} />
+                <Grid
+                    container
+                    direction="column"
+                    justify="center"
+                    alignItems="center"
+                    spacing={2}
+                >
+                    <Grid item>
+                        <FormGroup column="true">
+                        <FormControlLabel
+                                control={
+                                    <Checkbox 
+                                        checked={notifications.checkedCourseAvailable} 
+                                        color="primary"
+                                        onChange={handleNotificationsChange} 
+                                        name="checkedCourseAvailable" 
+                                    />
+                                }
+                                label="Course Available"
+                            />
+                            <FormControlLabel
+                                control={
+                                <Checkbox 
+                                    checked={notifications.checkedCourseunavailable} 
+                                    color="primary"
+                                    onChange={handleNotificationsChange} 
+                                    name="checkedCourseunavailable" 
+                                    />
+                                }
+                                label="Course Unavailable"
+                            />
+                            <FormControlLabel
+                                control={
+                                    <Checkbox 
+                                        checked={notifications.checkedExamInfoUpdated} 
+                                        onChange={handleNotificationsChange} 
+                                        name="checkedExamInfoUpdated" 
+                                    />
+                                }
+                                label="Updates to Exam Info"
+                            />
+                        </FormGroup>
+                    </Grid>
+                    <Grid item>
+                        <TextField 
+                            error={emailError}
+                            helperText={emailHelperText}
+                            id="email" 
+                            label="Email Address"
+                            onChange={e => setEmail(e.target.value)}
+                            style={{ width: 300}}
+                            value={email}
+                            variant="outlined"
+                        />
+                    </Grid>
+                    <Grid item>
+                        <Button 
+                            variant="outlined" 
+                            color="primary"
+                            onClick={saveNotifications}
+                        > 
+                            Sign up for notifications 
+                        </Button>
+                    </Grid>
 
-                <label htmlFor="courseUnavailable">Course Unavailable</label>
-                <input id="courseUnavailable" type="checkbox" checked={courseUnavailable} onChange={e => setCourseUnavailable(e.target.checked)} />
-
-                <label htmlFor="examInfoUpdated">Updated Exam Info</label>
-                <input id="examInfoUpdated" type="checkbox" checked={examInfoUpdated} onChange={e => setExamInfoUpdated(e.target.checked)} />        
-            </div>    
-
-            <div>
-                <label htmlFor="email"> Email Address: </label>
-                <input id="email" type="text" onChange={e => setEmail(e.target.value)}/>
-                <button onClick={() => saveEmail({
-                    email: email, 
-                    courseData: courses, 
-                    notifications: new Notification({
-                        courseAvailable: courseAvailable,
-                        courseUnavailable: courseUnavailable,
-                        examInfoUpdated: examInfoUpdated
-                    })
-                })}> Sign up for notifications </button>
+                    <Grid item>
+                        <Button 
+                            variant="outlined" 
+                            color="primary"
+                            onClick={backToSearching}
+                        >
+                            Back to searching
+                        </Button>
+                    </Grid>
+                </Grid>
             </div>
 
-            <button onClick={() => backToSearching()}>Back to searching</button>
-        </div>
+            <div>
+                <Grid
+                    container
+                    direction="column"
+                    justify="center"
+                    alignItems="center"
+                    spacing={2}
+                >
+                    <Grid item>
+                        <p> NotificationRegistration </p>
+                    </Grid>
+                    <Grid item>
+                        <pre>course blob: {JSON.stringify(course, null, 2)}</pre>
+                    </Grid>
+                </Grid>
+            </div>
+
+        </SplitPane>
     )
  }

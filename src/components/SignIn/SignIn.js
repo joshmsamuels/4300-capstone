@@ -45,7 +45,7 @@ const signInOptions = [
     },
 ]
 
-export const SignIn = ({ handleClose, open, setEmail }) => {
+export const SignIn = ({ handleClose, setEmail }) => {
     const [signInStep, setSignInStep] = useState(SIGN_IN_STATES.SELECT_METHOD)
 
     const close = () => {
@@ -60,7 +60,7 @@ export const SignIn = ({ handleClose, open, setEmail }) => {
     
     return (
         <div>
-            <Dialog onClose={close} aria-labelledby="simple-dialog-title" open={open}>
+            <Dialog onClose={close} aria-labelledby="simple-dialog-title" open={true}>
                 <FontAwesomeIcon icon={faTimesCircle} size="2x" className="closeGuestSignIn" onClick={handleClose} />
                 { showSsoUnsupportedAlert(signInStep) &&
                     <Alert variant="filled" severity="warning" onClose={() => {setSignInStep(SIGN_IN_STATES.SELECT_METHOD)}}>
