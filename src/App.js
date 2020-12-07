@@ -5,11 +5,17 @@ import Course from 'models/Course'
 
 import {
   NotificationRegistration,
-  Search,
   SignIn
 } from 'components'
 
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
+
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
 
 const courses = [
   new Course({
@@ -37,13 +43,13 @@ const courses = [
     professor: "TBA TBA",
     status: "Open",
     term: "Winter 2021"
-  }) 
+  })
 ]
 
 let notificationArr = []
 
 function App() {
-  const [searchParam, setSearchParam] = useState({field: null, searchKey: ""})
+  const [course, setCourse] = useState(null)
   const [isSearching, setSearching] = useState(true)
   const [shouldShowSignInDialog, setShowSignInDialog] = useState(false)
   const [userEmail, setUserEmail] = useState("")
@@ -55,42 +61,106 @@ function App() {
     setShowSignInDialog(false)
   }
 
+  const searchButtonDisabled = () => {
+    return !course
+  }
+
+  const showSearching = () => {
+    setCourse(null)
+    setSearching(true)
+  }
+
   const isUserSignedIn = () => {
-    return userEmail !== ""
+    return userEmail.length > 0
   }
   const signOut = () => {
     setUserEmail("")
   }
 
   return (
-    <div className="App">
-      <header className="App-header">
-        Welcome to Guelph Course Notifier {userEmail}
-      </header>
-      { isSearching ?
-          <div>
-            <span>
-              Search by course code: <Search key='byCode' courses={courses.map(c => c.code)} updateSelection={(val) => setSearchParam({field: Course.SEARCH_BY_COURSE_CODE(), searchKey: val})} />
-            </span>
+    // <div className="content">
+    <Grid 
+      container
+      direction="column"
+      spacing={3}
+    >
+      <Grid item>
+        <AppBar position="static">
+          <Toolbar className="header">
+            <Typography variant="h6">
+              Guelph Course Notifier
+            </Typography>
 
-            <span>
-              Search by course name: <Search id='byName' courses={courses.map(c => c.name)} updateSelection={(val) => setSearchParam({field: Course.SEARCH_BY_NAME(), searchKey: val})} />
-            </span>
+            <div>
+              { isUserSignedIn() && 
+                <Button color="inherit"> Manage Notifications</Button>
+              }
+              { isUserSignedIn() ? 
+                <Button color="inherit" onClick={signOut}> Sign Out </Button> :
+                <Button color="inherit" onClick={showSignInDialog}> Sign In </Button>
+              }
+            </div>
+          </Toolbar>
+        </AppBar>
+      </Grid>
 
-            <button onClick={() => setSearching(false)}>Search</button>
-          </div>
-        : <div>
-            <NotificationRegistration courses={courses.filter(course => course[searchParam.field] === searchParam.searchKey)} backToSearching={() => setSearching(true)} saveEmail={saveEmailToArray} />
-          </div>
-      }
+      <Grid item>
+        { isSearching &&
+          <Grid
+            container
+            classes={{ root: 'mainContent' }}
+            direction="column"
+            spacing={2}
+            style={{
+              // TODO: Move to App.css - not sure why it wasnt working
+              width: 300,
+              margin: "auto",
+            }}
+          >
+            <Grid item>
+              <Autocomplete
+                  getOptionLabel={(option) => option.code}
+                  id="searchByCode"
+                  onChange={(e, selectedCourse) => setCourse(selectedCourse)} 
+                  options={courses}
+                  renderInput={(params) => <TextField {...params} label="Course Code" variant="outlined" />}
+              />
+            </Grid>
 
-      {
-        isUserSignedIn() ? <Button variant="outlined" color="primary" onClick={signOut}> Sign Out </Button>
-                         : <Button variant="outlined" color="primary" onClick={showSignInDialog}> Sign In </Button>
-      }
+            <Grid item>
+              <Autocomplete
+                  id="searchByName"
+                  options={courses}
+                  getOptionLabel={(option) => option.name}
+                  renderInput={(params) => <TextField {...params} label="Course Name" variant="outlined" />}
+                  onChange={(e, selectedCourse) => setCourse(selectedCourse)}
+              />
+            </Grid>
 
-      <SignIn open={shouldShowSignInDialog} handleClose={hideSignInDialog} setEmail={setUserEmail}/>
-    </div>
+            <Grid item>
+              <Button 
+                color="primary" 
+                disabled={searchButtonDisabled()}
+                fullWidth 
+                onClick={() => setSearching(false)}
+                variant="outlined" 
+              >
+                Search
+              </Button>
+            </Grid>
+          </Grid>
+        } 
+          
+        { !isSearching &&
+            <NotificationRegistration course={course} backToSearching={showSearching} saveEmail={saveEmailToArray} />
+        }
+
+        { shouldShowSignInDialog && 
+          <SignIn handleClose={hideSignInDialog} setEmail={setUserEmail}/>
+        }
+      </Grid>
+    {/* </div> */}
+    </Grid>
   )
 }
 

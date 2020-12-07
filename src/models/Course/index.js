@@ -26,7 +26,4 @@ export default class Course {
       this.status = status
       this.term = term
     }
-  
-    static SEARCH_BY_NAME = () => "name"
-    static SEARCH_BY_COURSE_CODE = () => "code"
   }  
