@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 
 import { GuestSignIn } from 'components/SignIn/GuestSignIn'
 
@@ -7,14 +8,14 @@ import { faFacebook, faGoogle, faMicrosoft } from '@fortawesome/free-brands-svg-
 import { faQuestion } from '@fortawesome/free-solid-svg-icons'
 import { faTimesCircle } from '@fortawesome/free-regular-svg-icons'
 
-import Alert from '@material-ui/lab/Alert';
-import Avatar from '@material-ui/core/Avatar';
-import Dialog from '@material-ui/core/Dialog';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemText from '@material-ui/core/ListItemText';
+import Alert from '@material-ui/lab/Alert'
+import Avatar from '@material-ui/core/Avatar'
+import Dialog from '@material-ui/core/Dialog'
+import DialogTitle from '@material-ui/core/DialogTitle'
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemAvatar from '@material-ui/core/ListItemAvatar'
+import ListItemText from '@material-ui/core/ListItemText'
 
 const SIGN_IN_STATES = Object.freeze({
     SELECT_METHOD: 0,
@@ -45,6 +46,11 @@ const signInOptions = [
     },
 ]
 
+SignIn.propTypes = {
+    handleClose: PropTypes.func,
+    setEmail: PropTypes.func
+}
+
 export const SignIn = ({ handleClose, setEmail }) => {
     const [signInStep, setSignInStep] = useState(SIGN_IN_STATES.SELECT_METHOD)
 
@@ -70,14 +76,14 @@ export const SignIn = ({ handleClose, setEmail }) => {
                 <DialogTitle id="simple-dialog-title">Sign In with</DialogTitle>
                 <List>
                     {signInOptions.map(({ icon, provider, nextStep }) => (
-                    <ListItem button onClick={() => setSignInStep(nextStep)} key={provider}>
-                        <ListItemAvatar>
-                        <Avatar>
-                            <FontAwesomeIcon icon={icon} />
-                        </Avatar>
-                        </ListItemAvatar>
-                        <ListItemText primary={provider} />
-                    </ListItem>
+                        <ListItem button onClick={() => setSignInStep(nextStep)} key={provider}>
+                            <ListItemAvatar>
+                                <Avatar>
+                                    <FontAwesomeIcon icon={icon} />
+                                </Avatar>
+                            </ListItemAvatar>
+                            <ListItemText primary={provider} />
+                        </ListItem>
                     ))}
                 </List>
             </Dialog>

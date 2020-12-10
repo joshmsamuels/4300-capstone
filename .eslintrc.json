@@ -1,7 +1,8 @@
 {
     "env": {
         "browser": true,
-        "es6": true
+        "es6": true,
+        "jest": true
     },
     "extends": [
         "eslint:recommended",
@@ -21,6 +22,7 @@
     "plugins": [
         "react"
     ],
+    "ignorePatterns": ["src/reportWebVitals.js"], // Ignoring due to an eslint error from create-react-app
     "rules": {
         "indent": [
             "error",
@@ -32,7 +34,7 @@
         ],
         "quotes": [
             "error",
-            "double"
+            "single"
         ],
         "semi": [
             "error",

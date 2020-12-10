@@ -1,21 +1,28 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 import Notification from 'models/Notification'
 
-import Button from '@material-ui/core/Button';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button'
+import Checkbox from '@material-ui/core/Checkbox'
+import FormGroup from '@material-ui/core/FormGroup'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Grid from '@material-ui/core/Grid'
+import TextField from '@material-ui/core/TextField'
 
-import SplitPane from 'react-split-pane';
+import SplitPane from 'react-split-pane'
 
-import isEmail from 'validator/lib/isEmail';
+import isEmail from 'validator/lib/isEmail'
+
+NotificationRegistration.propTypes = {
+    course: PropTypes.object,
+    backToSearching: PropTypes.func,
+    saveEmail: PropTypes.func
+}
 
 export const NotificationRegistration = ({course, backToSearching, saveEmail}) => {
-    const [email, setEmail] = useState("")
+    const [email, setEmail] = useState('')
     const [emailError, setEmailError] = useState(false)
-    const [emailHelperText, setEmailHelperText] = useState("")
+    const [emailHelperText, setEmailHelperText] = useState('')
 
     const [notifications, setNotifications] = useState({
         checkedCourseAvailable: false, 
@@ -24,13 +31,13 @@ export const NotificationRegistration = ({course, backToSearching, saveEmail}) =
     })
 
     const handleNotificationsChange = (event) => {
-        setNotifications({ ...notifications, [event.target.name]: event.target.checked });
+        setNotifications({ ...notifications, [event.target.name]: event.target.checked })
     }
 
     const saveNotifications = () => {
         if (!isEmail(email)) {
             setEmailError(true)
-            setEmailHelperText("Invalid Email Address")
+            setEmailHelperText('Invalid Email Address')
             return
         }
 
@@ -59,7 +66,7 @@ export const NotificationRegistration = ({course, backToSearching, saveEmail}) =
                 >
                     <Grid item>
                         <FormGroup column="true">
-                        <FormControlLabel
+                            <FormControlLabel
                                 control={
                                     <Checkbox 
                                         checked={notifications.checkedCourseAvailable} 
@@ -72,11 +79,11 @@ export const NotificationRegistration = ({course, backToSearching, saveEmail}) =
                             />
                             <FormControlLabel
                                 control={
-                                <Checkbox 
-                                    checked={notifications.checkedCourseunavailable} 
-                                    color="primary"
-                                    onChange={handleNotificationsChange} 
-                                    name="checkedCourseunavailable" 
+                                    <Checkbox 
+                                        checked={notifications.checkedCourseunavailable} 
+                                        color="primary"
+                                        onChange={handleNotificationsChange} 
+                                        name="checkedCourseunavailable" 
                                     />
                                 }
                                 label="Course Unavailable"
@@ -146,4 +153,4 @@ export const NotificationRegistration = ({course, backToSearching, saveEmail}) =
 
         </SplitPane>
     )
- }
+}
