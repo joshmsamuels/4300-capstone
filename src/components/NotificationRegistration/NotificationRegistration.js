@@ -13,12 +13,6 @@ import SplitPane from 'react-split-pane'
 
 import isEmail from 'validator/lib/isEmail'
 
-NotificationRegistration.propTypes = {
-    course: PropTypes.object,
-    backToSearching: PropTypes.func,
-    saveEmail: PropTypes.func
-}
-
 export const NotificationRegistration = ({course, backToSearching, saveEmail}) => {
     const [email, setEmail] = useState('')
     const [emailError, setEmailError] = useState(false)
@@ -46,6 +40,7 @@ export const NotificationRegistration = ({course, backToSearching, saveEmail}) =
         saveEmail({
             email: email, 
             courseData: course, 
+            overrides: { enableNotifs: true },
             notifications: new Notification({
                 courseAvailable: notifications.checkedCourseAvailable,
                 courseUnavailable: notifications.checkedCourseunavailable,
@@ -92,6 +87,7 @@ export const NotificationRegistration = ({course, backToSearching, saveEmail}) =
                                 control={
                                     <Checkbox 
                                         checked={notifications.checkedExamInfoUpdated} 
+                                        color="primary"
                                         onChange={handleNotificationsChange} 
                                         name="checkedExamInfoUpdated" 
                                     />
@@ -153,4 +149,10 @@ export const NotificationRegistration = ({course, backToSearching, saveEmail}) =
 
         </SplitPane>
     )
+}
+
+NotificationRegistration.propTypes = {
+    course: PropTypes.object,
+    backToSearching: PropTypes.func,
+    saveEmail: PropTypes.func
 }

@@ -4,6 +4,7 @@ import './App.css'
 import Course from 'models/Course'
 
 import {
+    ManageNotifications,
     NotificationRegistration,
     SignIn
 } from 'components'
@@ -47,12 +48,208 @@ const courses = [
 ]
 
 let notificationArr = []
+let CONST_NOTIFS = [
+    {
+        'courseData': {
+            'available': 0,
+            'capacity': 15,
+            'code': 'CIS*1050',
+            'credits': 0.5,
+            'level': 'Undergraduate',
+            'location': 'Guelph',
+            'meetingInfo': 'Distance Education Days TBA\nTimes TBA\nRoom TBA',
+            'name': 'Web Design & Development',
+            'professor': 'M. Wirth',
+            'status': 'Closed',
+            'term': 'Winter 2021'
+        },
+        overrides: {
+            'enableNotifs': true
+        },
+        'notifications': {
+            'courseAvailable': true,
+            'courseUnavailable': false,
+            'examInfoUpdated': false
+        }
+    },       
+    {
+        'courseData': {
+            'available': 0,
+            'capacity': 15,
+            'code': 'CIS*1050',
+            'credits': 0.5,
+            'level': 'Undergraduate',
+            'location': 'Guelph',
+            'meetingInfo': 'Distance Education Days TBA\nTimes TBA\nRoom TBA',
+            'name': 'Web Design & Development',
+            'professor': 'M. Wirth',
+            'status': 'Closed',
+            'term': 'Winter 2021'
+        },        overrides: {
+            'enableNotifs': true
+        },
+
+        'notifications': {
+            'courseAvailable': false,
+            'courseUnavailable': false,
+            'examInfoUpdated': false
+        }
+    },        {
+        'courseData': {
+            'available': 0,
+            'capacity': 15,
+            'code': 'CIS*1050',
+            'credits': 0.5,
+            'level': 'Undergraduate',
+            'location': 'Guelph',
+            'meetingInfo': 'Distance Education Days TBA\nTimes TBA\nRoom TBA',
+            'name': 'Web Design & Development',
+            'professor': 'M. Wirth',
+            'status': 'Closed',
+            'term': 'Winter 2021'
+        },        overrides: {
+            'enableNotifs': true
+        },
+
+        'notifications': {
+            'courseAvailable': false,
+            'courseUnavailable': false,
+            'examInfoUpdated': false
+        }
+    }
+    ,        {
+        'courseData': {
+            'available': 0,
+            'capacity': 15,
+            'code': 'CIS*1050',
+            'credits': 0.5,
+            'level': 'Undergraduate',
+            'location': 'Guelph',
+            'meetingInfo': 'Distance Education Days TBA\nTimes TBA\nRoom TBA',
+            'name': 'Web Design & Development',
+            'professor': 'M. Wirth',
+            'status': 'Closed',
+            'term': 'Winter 2021'
+        },        overrides: {
+            'enableNotifs': true
+        },
+
+        'notifications': {
+            'courseAvailable': false,
+            'courseUnavailable': false,
+            'examInfoUpdated': false
+        }
+    }
+    ,        {
+        'courseData': {
+            'available': 0,
+            'capacity': 15,
+            'code': 'CIS*1050',
+            'credits': 0.5,
+            'level': 'Undergraduate',
+            'location': 'Guelph',
+            'meetingInfo': 'Distance Education Days TBA\nTimes TBA\nRoom TBA',
+            'name': 'Web Design & Development',
+            'professor': 'M. Wirth',
+            'status': 'Closed',
+            'term': 'Winter 2021'
+        },        overrides: {
+            'enableNotifs': true
+        },
+
+        'notifications': {
+            'courseAvailable': false,
+            'courseUnavailable': false,
+            'examInfoUpdated': false
+        }
+    }
+    ,        {
+        'courseData': {
+            'available': 0,
+            'capacity': 15,
+            'code': 'CIS*1050',
+            'credits': 0.5,
+            'level': 'Undergraduate',
+            'location': 'Guelph',
+            'meetingInfo': 'Distance Education Days TBA\nTimes TBA\nRoom TBA',
+            'name': 'Web Design & Development',
+            'professor': 'M. Wirth',
+            'status': 'Closed',
+            'term': 'Winter 2021'
+        },        overrides: {
+            'enableNotifs': true
+        },
+
+        'notifications': {
+            'courseAvailable': false,
+            'courseUnavailable': false,
+            'examInfoUpdated': false
+        }
+    }
+    ,        {
+        'courseData': {
+            'available': 0,
+            'capacity': 15,
+            'code': 'CIS*1050',
+            'credits': 0.5,
+            'level': 'Undergraduate',
+            'location': 'Guelph',
+            'meetingInfo': 'Distance Education Days TBA\nTimes TBA\nRoom TBA',
+            'name': 'Web Design & Development',
+            'professor': 'M. Wirth',
+            'status': 'Closed',
+            'term': 'Winter 2021'
+        },        overrides: {
+            'enableNotifs': true
+        },
+
+        'notifications': {
+            'courseAvailable': false,
+            'courseUnavailable': false,
+            'examInfoUpdated': false
+        }
+    }
+    ,        {
+        'courseData': {
+            'available': 0,
+            'capacity': 15,
+            'code': 'CIS*1050',
+            'credits': 0.5,
+            'level': 'Undergraduate',
+            'location': 'Guelph',
+            'meetingInfo': 'Distance Education Days TBA\nTimes TBA\nRoom TBA',
+            'name': 'Web Design & Development',
+            'professor': 'M. Wirth',
+            'status': 'Closed',
+            'term': 'Winter 2021'
+        },        overrides: {
+            'enableNotifs': true
+        },
+
+        'notifications': {
+            'courseAvailable': false,
+            'courseUnavailable': false,
+            'examInfoUpdated': false
+        }
+    }
+]
 
 function App() {
     const [course, setCourse] = useState(null)
     const [isSearching, setSearching] = useState(true)
     const [shouldShowSignInDialog, setShowSignInDialog] = useState(false)
     const [userEmail, setUserEmail] = useState('')
+    const [showManagedNotifications, setShowManagedNotifications] = useState(false)
+    const [showNotificationRegistration, setShowNotificationRegistration] = useState(false)
+    const [notifications, setNotifications] = useState(CONST_NOTIFS)
+
+    const goHome = () => {
+        setCourse(null)
+        setSearching(true)
+        setShowSignInDialog(false)
+        setShowManagedNotifications(false)
+        setShowNotificationRegistration(false)
+    }
 
     const showSignInDialog = () => {
         setShowSignInDialog(true)
@@ -70,11 +267,31 @@ function App() {
         setSearching(true)
     }
 
+    const shouldShowManagedNotifications = () => {
+        setSearching(false)
+        setShowManagedNotifications(true)
+    }
+
+    const shouldShowNotificationRegistration = () => {
+        setSearching(false)
+        setShowNotificationRegistration(true)
+    }
+
     const isUserSignedIn = () => {
         return userEmail.length > 0
     }
     const signOut = () => {
         setUserEmail('')
+    }
+
+    const updateNotification = (index) => (newSettings) => {
+        CONST_NOTIFS[index].notifications = newSettings
+        setNotifications(CONST_NOTIFS)
+    }
+    const updateOverrides = ({index, newSettings}) => {
+        CONST_NOTIFS[index].overrides = newSettings
+
+        setNotifications(CONST_NOTIFS)
     }
 
     return (
@@ -87,13 +304,14 @@ function App() {
             <Grid item>
                 <AppBar position="static">
                     <Toolbar className="header">
-                        <Typography variant="h6">
+                        <Typography variant="h6" onClick={goHome}>
               Guelph Course Notifier
                         </Typography>
 
                         <div>
-                            { isUserSignedIn() && 
-                <Button color="inherit"> Manage Notifications</Button>
+                            { // isUserSignedIn() && 
+                                !isUserSignedIn() && 
+                <Button color="inherit" onClick={shouldShowManagedNotifications}> Manage Notifications</Button>
                             }
                             { isUserSignedIn() ? 
                                 <Button color="inherit" onClick={signOut}> Sign Out </Button> :
@@ -142,7 +360,7 @@ function App() {
                       color="primary" 
                       disabled={searchButtonDisabled()}
                       fullWidth 
-                      onClick={() => setSearching(false)}
+                      onClick={shouldShowNotificationRegistration}
                       variant="outlined" 
                   >
                 Search
@@ -151,12 +369,17 @@ function App() {
           </Grid>
                 } 
           
-                { !isSearching &&
+                { showNotificationRegistration &&
             <NotificationRegistration course={course} backToSearching={showSearching} saveEmail={saveEmailToArray} />
                 }
 
                 { shouldShowSignInDialog && 
           <SignIn handleClose={hideSignInDialog} setEmail={setUserEmail}/>
+                }
+
+                {
+                    showManagedNotifications &&
+                  <ManageNotifications notifications={notifications} updateNotification={updateNotification} updateOverrides={updateOverrides} />
                 }
             </Grid>
             {/* </div> */}

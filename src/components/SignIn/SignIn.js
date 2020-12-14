@@ -46,11 +46,6 @@ const signInOptions = [
     },
 ]
 
-SignIn.propTypes = {
-    handleClose: PropTypes.func,
-    setEmail: PropTypes.func
-}
-
 export const SignIn = ({ handleClose, setEmail }) => {
     const [signInStep, setSignInStep] = useState(SIGN_IN_STATES.SELECT_METHOD)
 
@@ -88,9 +83,14 @@ export const SignIn = ({ handleClose, setEmail }) => {
                 </List>
             </Dialog>
 
-            { openGuestSignIn(signInStep) && <GuestSignIn open={open} handleClose={() => setSignInStep(SIGN_IN_STATES.SELECT_METHOD)} handleComplete={signInComplete} /> }
+            { openGuestSignIn(signInStep) && <GuestSignIn open={true} handleClose={() => setSignInStep(SIGN_IN_STATES.SELECT_METHOD)} handleComplete={signInComplete} /> }
         </div>
     )
+}
+
+SignIn.propTypes = {
+    handleClose: PropTypes.func,
+    setEmail: PropTypes.func
 }
 
 const openGuestSignIn = (signInStep) => {

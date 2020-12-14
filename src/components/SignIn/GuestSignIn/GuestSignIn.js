@@ -18,12 +18,6 @@ import Dialog from '@material-ui/core/Dialog'
 
 import isEmail from 'validator/lib/isEmail'
 
-GuestSignIn.propTypes = {
-    handleClose: PropTypes.func,
-    handleComplete: PropTypes.func,
-    open: PropTypes.bool
-}
-
 export const GuestSignIn = ({ handleClose, handleComplete, open }) => {
     return (
         <div>
@@ -35,8 +29,10 @@ export const GuestSignIn = ({ handleClose, handleComplete, open }) => {
     )
 }
 
-VerifyEmail.propTypes = {
-    handleComplete: PropTypes.func
+GuestSignIn.propTypes = {
+    handleClose: PropTypes.func,
+    handleComplete: PropTypes.func,
+    open: PropTypes.bool
 }
 
 export const VerifyEmail = ({ handleComplete }) => {
@@ -138,4 +134,8 @@ export const VerifyEmail = ({ handleComplete }) => {
             </div>
         </div>
     )
+}
+
+VerifyEmail.propTypes = {
+    handleComplete: PropTypes.func
 }
