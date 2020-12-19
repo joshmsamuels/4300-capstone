@@ -18,6 +18,11 @@ import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 
+import IconButton from '@material-ui/core/IconButton'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHome } from '@fortawesome/free-solid-svg-icons'
+
+
 const courses = [
     new Course({
         available: 0,
@@ -48,191 +53,6 @@ const courses = [
 ]
 
 let notificationArr = []
-let CONST_NOTIFS = [
-    {
-        'courseData': {
-            'available': 0,
-            'capacity': 15,
-            'code': 'CIS*1050',
-            'credits': 0.5,
-            'level': 'Undergraduate',
-            'location': 'Guelph',
-            'meetingInfo': 'Distance Education Days TBA\nTimes TBA\nRoom TBA',
-            'name': 'Web Design & Development',
-            'professor': 'M. Wirth',
-            'status': 'Closed',
-            'term': 'Winter 2021'
-        },
-        overrides: {
-            'enableNotifs': true
-        },
-        'notifications': {
-            'courseAvailable': true,
-            'courseUnavailable': false,
-            'examInfoUpdated': false
-        }
-    },       
-    {
-        'courseData': {
-            'available': 0,
-            'capacity': 15,
-            'code': 'CIS*1050',
-            'credits': 0.5,
-            'level': 'Undergraduate',
-            'location': 'Guelph',
-            'meetingInfo': 'Distance Education Days TBA\nTimes TBA\nRoom TBA',
-            'name': 'Web Design & Development',
-            'professor': 'M. Wirth',
-            'status': 'Closed',
-            'term': 'Winter 2021'
-        },        overrides: {
-            'enableNotifs': true
-        },
-
-        'notifications': {
-            'courseAvailable': false,
-            'courseUnavailable': false,
-            'examInfoUpdated': false
-        }
-    },        {
-        'courseData': {
-            'available': 0,
-            'capacity': 15,
-            'code': 'CIS*1050',
-            'credits': 0.5,
-            'level': 'Undergraduate',
-            'location': 'Guelph',
-            'meetingInfo': 'Distance Education Days TBA\nTimes TBA\nRoom TBA',
-            'name': 'Web Design & Development',
-            'professor': 'M. Wirth',
-            'status': 'Closed',
-            'term': 'Winter 2021'
-        },        overrides: {
-            'enableNotifs': true
-        },
-
-        'notifications': {
-            'courseAvailable': false,
-            'courseUnavailable': false,
-            'examInfoUpdated': false
-        }
-    }
-    ,        {
-        'courseData': {
-            'available': 0,
-            'capacity': 15,
-            'code': 'CIS*1050',
-            'credits': 0.5,
-            'level': 'Undergraduate',
-            'location': 'Guelph',
-            'meetingInfo': 'Distance Education Days TBA\nTimes TBA\nRoom TBA',
-            'name': 'Web Design & Development',
-            'professor': 'M. Wirth',
-            'status': 'Closed',
-            'term': 'Winter 2021'
-        },        overrides: {
-            'enableNotifs': true
-        },
-
-        'notifications': {
-            'courseAvailable': false,
-            'courseUnavailable': false,
-            'examInfoUpdated': false
-        }
-    }
-    ,        {
-        'courseData': {
-            'available': 0,
-            'capacity': 15,
-            'code': 'CIS*1050',
-            'credits': 0.5,
-            'level': 'Undergraduate',
-            'location': 'Guelph',
-            'meetingInfo': 'Distance Education Days TBA\nTimes TBA\nRoom TBA',
-            'name': 'Web Design & Development',
-            'professor': 'M. Wirth',
-            'status': 'Closed',
-            'term': 'Winter 2021'
-        },        overrides: {
-            'enableNotifs': true
-        },
-
-        'notifications': {
-            'courseAvailable': false,
-            'courseUnavailable': false,
-            'examInfoUpdated': false
-        }
-    }
-    ,        {
-        'courseData': {
-            'available': 0,
-            'capacity': 15,
-            'code': 'CIS*1050',
-            'credits': 0.5,
-            'level': 'Undergraduate',
-            'location': 'Guelph',
-            'meetingInfo': 'Distance Education Days TBA\nTimes TBA\nRoom TBA',
-            'name': 'Web Design & Development',
-            'professor': 'M. Wirth',
-            'status': 'Closed',
-            'term': 'Winter 2021'
-        },        overrides: {
-            'enableNotifs': true
-        },
-
-        'notifications': {
-            'courseAvailable': false,
-            'courseUnavailable': false,
-            'examInfoUpdated': false
-        }
-    }
-    ,        {
-        'courseData': {
-            'available': 0,
-            'capacity': 15,
-            'code': 'CIS*1050',
-            'credits': 0.5,
-            'level': 'Undergraduate',
-            'location': 'Guelph',
-            'meetingInfo': 'Distance Education Days TBA\nTimes TBA\nRoom TBA',
-            'name': 'Web Design & Development',
-            'professor': 'M. Wirth',
-            'status': 'Closed',
-            'term': 'Winter 2021'
-        },        overrides: {
-            'enableNotifs': true
-        },
-
-        'notifications': {
-            'courseAvailable': false,
-            'courseUnavailable': false,
-            'examInfoUpdated': false
-        }
-    }
-    ,        {
-        'courseData': {
-            'available': 0,
-            'capacity': 15,
-            'code': 'CIS*1050',
-            'credits': 0.5,
-            'level': 'Undergraduate',
-            'location': 'Guelph',
-            'meetingInfo': 'Distance Education Days TBA\nTimes TBA\nRoom TBA',
-            'name': 'Web Design & Development',
-            'professor': 'M. Wirth',
-            'status': 'Closed',
-            'term': 'Winter 2021'
-        },        overrides: {
-            'enableNotifs': true
-        },
-
-        'notifications': {
-            'courseAvailable': false,
-            'courseUnavailable': false,
-            'examInfoUpdated': false
-        }
-    }
-]
 
 function App() {
     const [course, setCourse] = useState(null)
@@ -241,7 +61,8 @@ function App() {
     const [userEmail, setUserEmail] = useState('')
     const [showManagedNotifications, setShowManagedNotifications] = useState(false)
     const [showNotificationRegistration, setShowNotificationRegistration] = useState(false)
-    const [notifications, setNotifications] = useState(CONST_NOTIFS)
+    const [notifications, setNotifications] = useState(notificationArr)
+    // const [notifications, setNotifications] = useState(CONST_NOTIFS)
 
     const goHome = () => {
         setCourse(null)
@@ -268,8 +89,12 @@ function App() {
     }
 
     const shouldShowManagedNotifications = () => {
+        goHome()
         setSearching(false)
         setShowManagedNotifications(true)
+
+        console.log('notif arr', notificationArr)
+        console.log('email', userEmail)
     }
 
     const shouldShowNotificationRegistration = () => {
@@ -284,18 +109,40 @@ function App() {
         setUserEmail('')
     }
 
-    const updateNotification = (index) => (newSettings) => {
-        CONST_NOTIFS[index].notifications = newSettings
-        setNotifications(CONST_NOTIFS)
+    const saveEmailToArray = ({ email, courseData, overrides, notifications }) => {
+        if (!notificationArr[email]) {
+            notificationArr[email] = []
+        }
+    
+        notificationArr[email].push({
+            courseData: courseData,
+            overrides: overrides,
+            notifications: notifications,
+        })
+    
+        setNotifications(notificationArr)
+    }    
+
+    const [shouldUpdateManageNotifications, setShouldUpdateManageNotifications] = useState(0)
+    const updateNotification = (index) => (newSettings) => {    
+        notificationArr[userEmail][index].notifications = newSettings
+        setNotifications(notificationArr)
+
+    }
+    const deleteNotification = (index) => () => {
+        notificationArr[userEmail] = notificationArr[userEmail].filter((val, i) => i !== index)
+        setNotifications(notificationArr)
+
+        // Hack to get the toggle to update when array changes
+        setShouldUpdateManageNotifications(shouldUpdateManageNotifications + 1)
     }
     const updateOverrides = ({index, newSettings}) => {
-        CONST_NOTIFS[index].overrides = newSettings
+        notificationArr[userEmail][index].overrides = newSettings
 
-        setNotifications(CONST_NOTIFS)
+        setNotifications(notificationArr)
     }
 
     return (
-    // <div className="content">
         <Grid 
             container
             direction="column"
@@ -304,14 +151,19 @@ function App() {
             <Grid item>
                 <AppBar position="static">
                     <Toolbar className="header">
-                        <Typography variant="h6" onClick={goHome}>
-              Guelph Course Notifier
-                        </Typography>
+                        <div>
+                            <Typography variant="h6" onClick={goHome}>
+                            Guelph Course Notifier
+                            </Typography>
+
+                            <IconButton aria-label="Home" onClick={goHome} style={{color: '#FFFFFF'}}>
+                                <FontAwesomeIcon icon={faHome} />
+                            </IconButton>
+                        </div>
 
                         <div>
-                            { // isUserSignedIn() && 
-                                !isUserSignedIn() && 
-                <Button color="inherit" onClick={shouldShowManagedNotifications}> Manage Notifications</Button>
+                            { isUserSignedIn() && 
+                                <Button color="inherit" onClick={shouldShowManagedNotifications}> Manage Notifications</Button>
                             }
                             { isUserSignedIn() ? 
                                 <Button color="inherit" onClick={signOut}> Sign Out </Button> :
@@ -370,32 +222,26 @@ function App() {
                 } 
           
                 { showNotificationRegistration &&
-            <NotificationRegistration course={course} backToSearching={showSearching} saveEmail={saveEmailToArray} />
+                    <NotificationRegistration course={course} backToSearching={showSearching} saveEmail={saveEmailToArray} />
                 }
 
                 { shouldShowSignInDialog && 
-          <SignIn handleClose={hideSignInDialog} setEmail={setUserEmail}/>
+                    <SignIn handleClose={hideSignInDialog} setEmail={setUserEmail}/>
                 }
 
                 {
                     showManagedNotifications &&
-                  <ManageNotifications notifications={notifications} updateNotification={updateNotification} updateOverrides={updateOverrides} />
+                        <ManageNotifications 
+                            key={shouldUpdateManageNotifications}
+                            notifications={notifications[userEmail] || []} 
+                            updateNotification={updateNotification} 
+                            updateOverrides={updateOverrides} 
+                            deleteNotification={deleteNotification}
+                        />
                 }
             </Grid>
-            {/* </div> */}
         </Grid>
     )
-}
-
-const saveEmailToArray = ({ email, courseData, notifications }) => {
-    if (!notificationArr[email]) {
-        notificationArr[email] = []
-    }
-
-    notificationArr[email].push({
-        courseData: courseData,
-        notifications: notifications,
-    })
 }
 
 export default App

@@ -8,6 +8,7 @@ import FormGroup from '@material-ui/core/FormGroup'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Grid from '@material-ui/core/Grid'
 import TextField from '@material-ui/core/TextField'
+import Typography from '@material-ui/core/Typography'
 
 import SplitPane from 'react-split-pane'
 
@@ -118,7 +119,7 @@ export const NotificationRegistration = ({course, backToSearching, saveEmail}) =
                         </Button>
                     </Grid>
 
-                    <Grid item>
+                    {/* <Grid item>
                         <Button 
                             variant="outlined" 
                             color="primary"
@@ -126,7 +127,7 @@ export const NotificationRegistration = ({course, backToSearching, saveEmail}) =
                         >
                             Back to searching
                         </Button>
-                    </Grid>
+                    </Grid> */}
                 </Grid>
             </div>
 
@@ -139,10 +140,44 @@ export const NotificationRegistration = ({course, backToSearching, saveEmail}) =
                     spacing={2}
                 >
                     <Grid item>
-                        <p> NotificationRegistration </p>
+                        <Typography variant="h4">
+                            { 'Course Information' }
+                        </Typography>
                     </Grid>
                     <Grid item>
-                        <pre>course blob: {JSON.stringify(course, null, 2)}</pre>
+                        <Typography variant="h6">
+                            { `Available Sections: ${course.available}` }
+                        </Typography>
+                        <Typography variant="h6">
+                            { `Number of Sections: ${course.capacity}` }
+                        </Typography>
+                        <Typography variant="h6">
+                            { `Course Code: ${course.code}` }
+                        </Typography>
+                        <Typography variant="h6">
+                            { `Credits: ${course.credits}` }
+                        </Typography>
+                        <Typography variant="h6">
+                            { `Level:  ${course.level}` }
+                        </Typography>
+                        <Typography variant="h6">
+                            { `Location: ${course.location}` }
+                        </Typography>
+                        <Typography variant="h6">
+                            { `Meeting information: ${course.meetingInfo}` }
+                        </Typography>
+                        <Typography variant="h6">
+                            { `Course Name: ${course.name}` }
+                        </Typography>
+                        <Typography variant="h6">
+                            { `Professor: ${course.professor}` }
+                        </Typography>
+                        <Typography variant="h6">
+                            { `Status: ${course.status}` }
+                        </Typography>
+                        <Typography variant="h6">
+                            { `Term: ${course.term}` }
+                        </Typography>
                     </Grid>
                 </Grid>
             </div>

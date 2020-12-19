@@ -127,7 +127,7 @@ export const VerifyEmail = ({ handleComplete }) => {
                             color="primary"
                             onClick={handleNext}
                         >
-                            {activeStep === steps.length - 1 ? 'Sign In' : 'Next'}
+                            {activeStep === steps.length - 1 ? 'Sign In' : 'Send Code'}
                         </Button>
                     </div>
                 </div>

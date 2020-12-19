@@ -17,8 +17,9 @@ import Switch from '@material-ui/core/Switch'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit } from '@fortawesome/free-regular-svg-icons'
+import { faTrashAlt } from '@fortawesome/free-regular-svg-icons'
 
-export const ManageNotifications = ({ notifications, updateNotification, updateOverrides }) => {
+export const ManageNotifications = ({ notifications, updateNotification, updateOverrides, deleteNotification }) => {
 
     const [showEditDialog, setShowEditDialog] = useState(false)
     const [notificationToEdit, setNotificationToEdit] = useState(null)
@@ -33,7 +34,7 @@ export const ManageNotifications = ({ notifications, updateNotification, updateO
     }
 
     // TODO: Fix this hacky code
-    const [shouldUpdate, setShouldUpdate] = useState(false)
+    const [shouldUpdateToggle, setShouldUpdateToggle] = useState(false)
     const updateToggle = (index) => () => {
         let updateObj = {
             enableNotifs: !notifications[index].overrides.enableNotifs
@@ -46,50 +47,64 @@ export const ManageNotifications = ({ notifications, updateNotification, updateO
         })
 
         // Hack to get the toggle to update when props change
-        setShouldUpdate(!shouldUpdate)
+        setShouldUpdateToggle(!shouldUpdateToggle)
     }
 
     return (
         <div>
-            <GridList cellHeight={200} cols={3} spacing={10}
+            <GridList cellHeight={'auto'} cols={0} spacing={10}
                 style={{margin: 20 }}
             >
-                {notifications.map((notification, i) => (
-                    <Grid item key={i}>
-                        <Card variant="outlined">
-                            <CardHeader
-                                action={
-                                    <div>
-                                        <IconButton aria-label="settings" onClick={shouldShowEditDialog({notification: notification, index: i})}>
-                                            <FontAwesomeIcon icon={faEdit} />
-                                        </IconButton>
-
-                                        <Switch
-                                            checked={notifications[i].overrides.enableNotifs}
-                                            color="primary"
-                                            onChange={updateToggle(i)}
-                                            name="Notifications enabled"
-                                            key={shouldUpdate}
-                                        />
-                                    </div>
-                                }
-                                title={`${notification.courseData.code} - ${notification.courseData.name}`}
-                            />
-
-                            <CardContent>
-                                <Typography variant="body2" component="p">
-                                course is available: {notification.notifications.courseAvailable ? 'on' : 'off'}
-                                </Typography>
-                                <Typography variant="body2" component="p">
-                                course is unavailable: {notification.notifications.courseUnavailable ? 'on' : 'off'}
-                                </Typography>
-                                <Typography variant="body2" component="p">
-                                Exam info Updates: {notification.notifications.examInfoUpdated ? 'on' : 'off'}
-                                </Typography>
-                            </CardContent>
-                        </Card>
-                    </Grid>
-                ))}
+                {
+                    notifications.length === 0 ? 
+                        <div>
+                            No notifications to display
+                        </div> :
+                        notifications.map((notification, i) => (
+                            <Grid item key={i}>
+                                <Card variant="outlined">
+                                    <CardHeader
+                                        action={
+                                            <div>
+                                                <IconButton aria-label="Edit Notification" key={shouldUpdateToggle} onClick={shouldShowEditDialog({notification: notification, index: i})}>
+                                                    <FontAwesomeIcon icon={faEdit} />
+                                                </IconButton>
+                                                <IconButton aria-label="Delete Notification" onClick={deleteNotification(i)}>
+                                                    <FontAwesomeIcon icon={faTrashAlt} />
+                                                </IconButton>
+                        
+                                                <Switch
+                                                    checked={notifications[i].overrides.enableNotifs}
+                                                    color="primary"
+                                                    onChange={updateToggle(i)}
+                                                    name="Notifications enabled"
+                                                    title={
+                                                        notifications[i].overrides.enableNotifs ? 
+                                                            'Disable notifications' : 
+                                                            'Enable notifications'
+                                                    }
+                                                />
+                                            </div>
+                                        }
+                                        title={`${notification.courseData.code} - ${notification.courseData.name}`}
+                                    />
+                        
+                                    <CardContent>
+                                        <Typography variant="body2" component="p">
+                                        course is available: {notification.notifications.courseAvailable ? 'on' : 'off'}
+                                        </Typography>
+                                        <Typography variant="body2" component="p">
+                                        course is unavailable: {notification.notifications.courseUnavailable ? 'on' : 'off'}
+                                        </Typography>
+                                        <Typography variant="body2" component="p">
+                                        Exam info Updates: {notification.notifications.examInfoUpdated ? 'on' : 'off'}
+                                        </Typography>
+                                    </CardContent>
+                                </Card>
+                            </Grid>
+                        ))
+                        
+                }
             </GridList>
 
             {
@@ -103,5 +118,6 @@ export const ManageNotifications = ({ notifications, updateNotification, updateO
 ManageNotifications.propTypes = {
     notifications: PropTypes.array,
     updateNotification: PropTypes.func,
-    updateOverrides: PropTypes.func
+    updateOverrides: PropTypes.func,
+    deleteNotification: PropTypes.func
 }
